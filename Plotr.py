@@ -48,6 +48,7 @@ class Plotter(object):
         begin_year = years[0]
         gdp_lines = []
         event_dots = []
+        color_map = dict()
         for nation, offset in self.cn_map.items():
             nation_data = data_pool[:, offset]
             nation_data = nation_data.flatten()
@@ -57,12 +58,14 @@ class Plotter(object):
             else:
                 years_clip = years
             gdp_line, = ax.plot(years_clip, nation_data, label=nation)
+            color_map[nation] = gdp_line.get_color()
             gdp_lines.append(gdp_line)
         for year, region, label in self.event_list:
             event_dot = ax.scatter(
                 year,
                 data_pool[int(year - begin_year), self.cn_map[region]],
-                label=label
+                label=label,
+                color=color_map[region]
             )
             event_dots.append(event_dot)
         if log_sc:
