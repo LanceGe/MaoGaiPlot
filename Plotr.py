@@ -15,6 +15,7 @@ class Plotter(object):
             "Russia":   5,
             "U.K."  :   6
         }
+        self._marker_prio = [">", "o", "s", "*"]
         self.russia_offset = 29
         self.event_list = []
 
@@ -37,6 +38,7 @@ class Plotter(object):
 
     def add_events(self, events:list):
         self.clear_events()
+        events.sort(key=lambda tup: tup[0])
         for year, region, desc in events:
             self.add_event(year, region, desc)
 
@@ -60,13 +62,18 @@ class Plotter(object):
             gdp_line, = ax.plot(years_clip, nation_data, label=nation)
             color_map[nation] = gdp_line.get_color()
             gdp_lines.append(gdp_line)
+        region_counter = dict()
         for year, region, label in self.event_list:
+            if region not in region_counter:
+                region_counter[region] = 0
             event_dot = ax.scatter(
                 year,
                 data_pool[int(year - begin_year), self.cn_map[region]],
                 label=label,
-                color=color_map[region]
+                color=color_map[region],
+                marker=self._marker_prio[region_counter[region]]
             )
+            region_counter[region] += 1
             event_dots.append(event_dot)
         if log_sc:
             ax.set_yscale("log", nonposy='clip')
