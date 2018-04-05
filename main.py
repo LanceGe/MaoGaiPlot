@@ -12,4 +12,4 @@ event_list = [
     (1989, "Russia", "Limited Democratization of SU")
 ]
 sample_plotter.add_events(event_list)
-sample_plotter.plot(xlabel="GDP / USD", ylabel="year", log_sc=True)
+sample_plotter.plot(fig_name="sample.pdf", xlabel="GDP / USD", ylabel="year", log_sc=True)
