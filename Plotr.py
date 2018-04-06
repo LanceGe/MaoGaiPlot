@@ -16,7 +16,8 @@ class Plotter(object):
             "U.K."  :   6
         }
         self._marker_prio = [">", "o", "s", "*"]
-        self.russia_offset = 29
+        self.strange_offset = 29
+        self.strange_region = "Russia"
         self.event_list = []
 
     def set_csv(self, csv_name:str):
@@ -28,7 +29,10 @@ class Plotter(object):
             self.cn_map[region] = i + 1
 
     def set_russia_offset(self, russia_offset):
-        self.russia_offset = russia_offset
+        self.strange_offset = russia_offset
+
+    def set_strange_region(self, region_name):
+        self.strange_region = region_name
 
     def add_event(self, year:int, region:str, description:str):
         self.event_list.append((year, region, str(year) + ": " + description))
@@ -54,9 +58,9 @@ class Plotter(object):
         for nation, offset in self.cn_map.items():
             nation_data = data_pool[:, offset]
             nation_data = nation_data.flatten()
-            if nation == "Russia":
-                years_clip = years[29:]
-                nation_data = nation_data[29:]
+            if nation == self.strange_region:
+                years_clip = years[self.strange_offset:]
+                nation_data = nation_data[self.strange_offset:]
             else:
                 years_clip = years
             gdp_line, = ax.plot(years_clip, nation_data, label=nation)
