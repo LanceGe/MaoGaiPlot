@@ -14,6 +14,11 @@ I believe it is human-readable and can easily be understood without reading
 use log-scale for y-axis. 
 
 I have posed some constraints on the ```*.csv``` file. 
-The first column of the matrix should be years. The following
+* The first column of the matrix should be years. The following
 columns should be the certain value in that year for each of the regions in the same
 order as listed in ```self.set_regions```. 
+* If the certain value in first several years for ```"russia"``` 
+is not applicable, do not leave it blank. Fill it 
+with any number you like and use ```set_russia_offset```
+to set the offset. 
+
